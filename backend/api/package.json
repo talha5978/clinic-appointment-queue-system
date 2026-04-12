@@ -1,0 +1,30 @@
+{
+	"name": "@repo/api",
+	"version": "1.0.0",
+	"description": "This backend system is designed to manage clinic appointments efficiently. It allows patients to book, reschedule, and cancel appointments with a clinic. The backend also provides features for clinic staff to manage appointments, wait times, walk-in patients, and generate reports on appointment statistics.",
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"build": "tsc",
+		"start": "node dist/index.js"
+	},
+	"keywords": [
+		"clinic appointment system",
+		"Clinic queue management system",
+		"Queue management system",
+		"appointment",
+		"management",
+		"clinic system"
+	],
+	"author": "Muhammad Talha",
+	"license": "ISC",
+	"type": "module",
+	"dependencies": {
+		"dotenv": "^17.4.1",
+		"fastify": "^5.8.4"
+	},
+	"devDependencies": {
+		"@types/node": "^25.6.0",
+		"tsx": "^4.21.0",
+		"typescript": "^6.0.2"
+	}
+}

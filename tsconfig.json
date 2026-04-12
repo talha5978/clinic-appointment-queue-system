@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"@repo/types/*": ["./packages/types/*"],
+			"@repo/db/*": ["./packages/db/*"]
+		},
+		"skipLibCheck": true,
+		"target": "ES2022",
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"strict": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	}
+}

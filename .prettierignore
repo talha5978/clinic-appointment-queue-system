@@ -1,0 +1,14 @@
+.turbo
+
+build
+dist
+.env
+.env.sample
+
+.vscode/
+README.md
+
+logs/
+*.log
+
+**/*.html

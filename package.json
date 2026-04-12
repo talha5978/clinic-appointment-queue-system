@@ -1,0 +1,44 @@
+{
+	"name": "clinic_appointment_management_system",
+	"version": "1.0.0",
+	"private": true,
+	"packageManager": "npm@11.7.0",
+	"description": "This system is designed to manage clinic appointments efficiently. It allows patients to book, reschedule, and cancel appointments with a clinic. The system also provides features for clinic staff to manage appointments, wait times, walk-in patients, and generate reports on appointment statistics.",
+	"workspaces": [
+		"apps/*",
+		"backend/*",
+		"packages/*"
+	],
+	"scripts": {
+		"dev": "turbo run dev",
+		"dev:web": "turbo run dev --filter=@repo/web",
+		"build": "turbo run build",
+		"check-format": "prettier --check \"**/*.{js,ts,tsx,jsx,json,md,css,scss}\"",
+		"format": "prettier --write \"**/*.{js,ts,tsx,jsx,json,md,css,scss}\""
+	},
+	"lint-staged": {
+		"**/*.{js,ts,tsx,jsx,json,md,css,scss}": [
+			"prettier --write"
+		]
+	},
+	"keywords": [
+		"clinic appointment system",
+		"Clinic queue management system",
+		"Queue management system",
+		"appointment",
+		"management",
+		"clinic system"
+	],
+	"author": "Muhammad Talha",
+	"license": "ISC",
+	"type": "module",
+	"devDependencies": {
+		"husky": "^9.1.7",
+		"prettier": "^3.8.2",
+		"turbo": "^2.9.6"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.45.2",
+		"postgres": "^3.4.9"
+	}
+}
