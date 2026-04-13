@@ -1,33 +1,33 @@
-import Fastify from "fastify";
+import type { FastifyInstance } from "fastify";
+import { zodPlugin } from "./plugins/zod";
+import errorHandlerPlugin from "~/plugins/error-handler";
+import dbPlugin from "~/plugins/db";
+import fastifyEnv from "@fastify/env";
+import path from "path";
+import { fileURLToPath } from "node:url";
+import { options } from "~/utils/envPluginOptions";
 
-export const app = Fastify({
-	logger: {
-		level: "info",
-		base: null,
-		timestamp: () => `,"time":"${new Date().toISOString()}"`,
-		messageKey: "message",
-		formatters: {
-			level(label) {
-				return { level: label };
-			},
-		},
-		serializers: {
-			req(req) {
-				return {
-					method: req.method,
-					url: req.url,
-				};
-			},
-			res(res) {
-				return {
-					statusCode: res.statusCode,
-				};
-			},
-		},
-	},
-	disableRequestLogging: true,
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get("/health", async () => {
-	return { ok: true };
-});
+export async function server(fastify: FastifyInstance) {
+	await fastify.register(fastifyEnv, options(path, __dirname));
+	await fastify.register(zodPlugin);
+	await fastify.register(errorHandlerPlugin);
+	await fastify.register(dbPlugin);
+
+	fastify.get("/health", async (_, reply) => {
+		try {
+			const result = await fastify.db.execute("SELECT 1");
+			fastify.log.info("Health check successful: " + JSON.stringify(result));
+			return reply.send({
+				status: "ok",
+				dbConnected: true,
+				timestamp: result,
+			});
+		} catch (err) {
+			fastify.log.error(err);
+			throw err; // will be caught by error handler
+		}
+	});
+}

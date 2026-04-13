@@ -12,7 +12,10 @@
 	"scripts": {
 		"dev": "turbo run dev",
 		"dev:web": "turbo run dev --filter=@repo/web",
+		"dev:api": "turbo run dev  --filter=@repo/types --filter=@repo/db --filter=@repo/api",
 		"build": "turbo run build",
+		"db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+		"db:push": "drizzle-kit push --config=drizzle.config.ts",
 		"check-format": "prettier --check \"**/*.{js,ts,tsx,jsx,json,md,css,scss}\"",
 		"format": "prettier --write \"**/*.{js,ts,tsx,jsx,json,md,css,scss}\""
 	},
@@ -38,7 +41,10 @@
 		"turbo": "^2.9.6"
 	},
 	"dependencies": {
+		"drizzle-kit": "^0.31.10",
 		"drizzle-orm": "^0.45.2",
-		"postgres": "^3.4.9"
+		"fastify-type-provider-zod": "^6.1.0",
+		"postgres": "^3.4.9",
+		"zod": "^4.3.6"
 	}
 }

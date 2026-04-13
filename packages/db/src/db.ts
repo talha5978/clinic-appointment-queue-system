@@ -1,19 +1,20 @@
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { schema } from "@repo/db/src/schema";
+import { schema } from "./schema";
 
-const connectionString = process.env.DATABASE_URL;
+export function connectDB(fastify: any) {
+	const connectionString = fastify.config.DATABASE_URL;
+	if (!connectionString) {
+		throw new Error("DATABASE_URL environment variable is required");
+	}
 
-if (!connectionString) {
-	throw new Error("DATABASE_URL environment variable is required (Supabase PostgreSQL connection string)");
+	const client = postgres(connectionString, {
+		prepare: false,
+		ssl: "prefer",
+	});
+
+	const db = drizzle(client, { schema });
+	return { db, client };
 }
 
-/** Postgres client with drizzle + supabase connection string */
-const client = postgres(connectionString, {
-	prepare: false,
-	ssl: "prefer",
-});
-
-/** Drizzle ORM instance */
-export const db = drizzle(client, { schema });
-export type DbClient = typeof db;
+export type DbClient = PostgresJsDatabase<typeof schema>;

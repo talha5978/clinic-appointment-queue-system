@@ -1,23 +1,52 @@
-import { app } from "./server";
-import dotenv from "dotenv";
+import Fastify from "fastify";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
+import { server } from "~/server";
 
-dotenv.config({
-	path: "../../../.env",
-	quiet: true,
-});
+const app = Fastify({
+	logger: {
+		level: "info",
+		base: null,
+		timestamp: () => `,"time":"${new Date().toISOString()}"`,
+		messageKey: "message",
+		formatters: {
+			level(label) {
+				return { level: label };
+			},
+		},
+		serializers: {
+			req(req) {
+				return {
+					method: req.method,
+					url: req.url,
+				};
+			},
+			res(res) {
+				return {
+					statusCode: res.statusCode,
+				};
+			},
+		},
+	},
+	disableRequestLogging: true,
+}).withTypeProvider<ZodTypeProvider>();
 
-const startServer = () => {
-	const port = process.env.BACKEND_PORT || 3000;
+const startServer = async () => {
+	try {
+		await server(app);
+		const port = app.config.BACKEND_PORT;
 
-	app.listen({ port: Number(port), host: "0.0.0.0" }, (err, address) => {
-		if (err) {
-			app.log.error(err);
-			process.exit(1);
-		}
+		await app.listen({ port: Number(port), host: "0.0.0.0" }, (err, address) => {
+			if (err) {
+				app.log.error(err);
+				process.exit(1);
+			}
 
-		console.log(`Server running at ${address}`);
-		console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
-	});
+			console.log(`Server running at ${address}`);
+		});
+	} catch (error) {
+		app.log.error(error);
+		process.exit(1);
+	}
 };
 
 startServer();

@@ -6,8 +6,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export const loader = () => {
-	console.log("process.env.DATABASE_URL: ", process.env.DATABASE_URL);
-
 	return null;
 };
 
