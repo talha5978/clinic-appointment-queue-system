@@ -15,6 +15,7 @@
 		"dev:api": "turbo run dev  --filter=@repo/types --filter=@repo/db --filter=@repo/api",
 		"build": "turbo run build",
 		"db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+		"db:migration": "drizzle-kit migrate --config=drizzle.config.ts",
 		"db:push": "drizzle-kit push --config=drizzle.config.ts",
 		"check-format": "prettier --check \"**/*.{js,ts,tsx,jsx,json,md,css,scss}\"",
 		"format": "prettier --write \"**/*.{js,ts,tsx,jsx,json,md,css,scss}\""

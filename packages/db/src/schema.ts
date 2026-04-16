@@ -48,6 +48,7 @@ export const patients = pgTable("patients", {
 export const doctors = pgTable("doctors", {
 	id: uuid("id").primaryKey().defaultRandom(),
 	name: text("name").notNull(),
+	image: text("image"),
 	description: text("description").notNull(),
 	specialization: text("specialization").notNull(),
 	isActive: boolean("is_active").default(true),
