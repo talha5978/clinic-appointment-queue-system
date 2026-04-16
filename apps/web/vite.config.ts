@@ -5,7 +5,7 @@ import path from "path";
 import viteCompression from "vite-plugin-compression";
 
 export default defineConfig(({ mode }) => {
-	const env = loadEnv(mode, path.resolve(__dirname, "../../.env"), "");
+	const env = loadEnv(mode, path.resolve(__dirname, "../../.env"));
 
 	return {
 		plugins: [

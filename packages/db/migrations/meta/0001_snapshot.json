@@ -1,706 +1,656 @@
 {
-  "id": "947c13af-553d-4f7f-9eb3-3f2142ca626f",
-  "prevId": "c564b8d6-c35d-4c38-a011-3ed0fdfd7ecd",
-  "version": "7",
-  "dialect": "postgresql",
-  "tables": {
-    "public.appointments": {
-      "name": "appointments",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "patient_id": {
-          "name": "patient_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "doctor_id": {
-          "name": "doctor_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "appointment_date": {
-          "name": "appointment_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "time_slot": {
-          "name": "time_slot",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "status": {
-          "name": "status",
-          "type": "appointment_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'booked'"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "appointments_patient_id_patients_id_fk": {
-          "name": "appointments_patient_id_patients_id_fk",
-          "tableFrom": "appointments",
-          "tableTo": "patients",
-          "columnsFrom": [
-            "patient_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "appointments_doctor_id_doctors_id_fk": {
-          "name": "appointments_doctor_id_doctors_id_fk",
-          "tableFrom": "appointments",
-          "tableTo": "doctors",
-          "columnsFrom": [
-            "doctor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.consultation_logs": {
-      "name": "consultation_logs",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "queue_entry_id": {
-          "name": "queue_entry_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "diagnosis": {
-          "name": "diagnosis",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "prescription": {
-          "name": "prescription",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "duration_minutes": {
-          "name": "duration_minutes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "consultation_logs_queue_entry_id_queue_entries_id_fk": {
-          "name": "consultation_logs_queue_entry_id_queue_entries_id_fk",
-          "tableFrom": "consultation_logs",
-          "tableTo": "queue_entries",
-          "columnsFrom": [
-            "queue_entry_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.doctor_schedule_overrides": {
-      "name": "doctor_schedule_overrides",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "doctor_id": {
-          "name": "doctor_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "override_date": {
-          "name": "override_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_time": {
-          "name": "start_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "end_time": {
-          "name": "end_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "slot_duration_minutes": {
-          "name": "slot_duration_minutes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_closed": {
-          "name": "is_closed",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "doctor_schedule_overrides_doctor_id_doctors_id_fk": {
-          "name": "doctor_schedule_overrides_doctor_id_doctors_id_fk",
-          "tableFrom": "doctor_schedule_overrides",
-          "tableTo": "doctors",
-          "columnsFrom": [
-            "doctor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.doctor_schedules": {
-      "name": "doctor_schedules",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "doctor_id": {
-          "name": "doctor_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "day_of_week": {
-          "name": "day_of_week",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_time": {
-          "name": "start_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "end_time": {
-          "name": "end_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "slot_duration_minutes": {
-          "name": "slot_duration_minutes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 15
-        },
-        "is_active": {
-          "name": "is_active",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "doctor_schedules_doctor_id_doctors_id_fk": {
-          "name": "doctor_schedules_doctor_id_doctors_id_fk",
-          "tableFrom": "doctor_schedules",
-          "tableTo": "doctors",
-          "columnsFrom": [
-            "doctor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.doctors": {
-      "name": "doctors",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "image": {
-          "name": "image",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "specialization": {
-          "name": "specialization",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "is_active": {
-          "name": "is_active",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.patients": {
-      "name": "patients",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "phone": {
-          "name": "phone",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "cnic": {
-          "name": "cnic",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "date_of_birth": {
-          "name": "date_of_birth",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "gender": {
-          "name": "gender",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "address": {
-          "name": "address",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "patients_phone_unique": {
-          "name": "patients_phone_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "phone"
-          ]
-        },
-        "patients_cnic_unique": {
-          "name": "patients_cnic_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "cnic"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.queue_entries": {
-      "name": "queue_entries",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "token_number": {
-          "name": "token_number",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "appointment_id": {
-          "name": "appointment_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "status": {
-          "name": "status",
-          "type": "queue_entry_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'waiting'"
-        },
-        "called_at": {
-          "name": "called_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "consultation_start": {
-          "name": "consultation_start",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "consultation_end": {
-          "name": "consultation_end",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "queue_date": {
-          "name": "queue_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "patient_id": {
-          "name": "patient_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "doctor_id": {
-          "name": "doctor_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "queue_entries_appointment_id_appointments_id_fk": {
-          "name": "queue_entries_appointment_id_appointments_id_fk",
-          "tableFrom": "queue_entries",
-          "tableTo": "appointments",
-          "columnsFrom": [
-            "appointment_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "queue_entries_patient_id_patients_id_fk": {
-          "name": "queue_entries_patient_id_patients_id_fk",
-          "tableFrom": "queue_entries",
-          "tableTo": "patients",
-          "columnsFrom": [
-            "patient_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "queue_entries_doctor_id_doctors_id_fk": {
-          "name": "queue_entries_doctor_id_doctors_id_fk",
-          "tableFrom": "queue_entries",
-          "tableTo": "doctors",
-          "columnsFrom": [
-            "doctor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.system_settings": {
-      "name": "system_settings",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "system_settings_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
-        },
-        "key": {
-          "name": "key",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "value": {
-          "name": "value",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "system_settings_key_unique": {
-          "name": "system_settings_key_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "key"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    }
-  },
-  "enums": {
-    "public.appointment_status": {
-      "name": "appointment_status",
-      "schema": "public",
-      "values": [
-        "booked",
-        "checked_in",
-        "completed",
-        "cancelled",
-        "no_show"
-      ]
-    },
-    "public.queue_entry_status": {
-      "name": "queue_entry_status",
-      "schema": "public",
-      "values": [
-        "waiting",
-        "called",
-        "in_consultation",
-        "completed",
-        "cancelled"
-      ]
-    }
-  },
-  "schemas": {},
-  "sequences": {},
-  "roles": {},
-  "policies": {},
-  "views": {},
-  "_meta": {
-    "columns": {},
-    "schemas": {},
-    "tables": {}
-  }
+	"id": "947c13af-553d-4f7f-9eb3-3f2142ca626f",
+	"prevId": "c564b8d6-c35d-4c38-a011-3ed0fdfd7ecd",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.appointments": {
+			"name": "appointments",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"patient_id": {
+					"name": "patient_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"doctor_id": {
+					"name": "doctor_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"appointment_date": {
+					"name": "appointment_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"time_slot": {
+					"name": "time_slot",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"status": {
+					"name": "status",
+					"type": "appointment_status",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'booked'"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"appointments_patient_id_patients_id_fk": {
+					"name": "appointments_patient_id_patients_id_fk",
+					"tableFrom": "appointments",
+					"tableTo": "patients",
+					"columnsFrom": ["patient_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"appointments_doctor_id_doctors_id_fk": {
+					"name": "appointments_doctor_id_doctors_id_fk",
+					"tableFrom": "appointments",
+					"tableTo": "doctors",
+					"columnsFrom": ["doctor_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.consultation_logs": {
+			"name": "consultation_logs",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"queue_entry_id": {
+					"name": "queue_entry_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"diagnosis": {
+					"name": "diagnosis",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"prescription": {
+					"name": "prescription",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"duration_minutes": {
+					"name": "duration_minutes",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"consultation_logs_queue_entry_id_queue_entries_id_fk": {
+					"name": "consultation_logs_queue_entry_id_queue_entries_id_fk",
+					"tableFrom": "consultation_logs",
+					"tableTo": "queue_entries",
+					"columnsFrom": ["queue_entry_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.doctor_schedule_overrides": {
+			"name": "doctor_schedule_overrides",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"doctor_id": {
+					"name": "doctor_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"override_date": {
+					"name": "override_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"start_time": {
+					"name": "start_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"end_time": {
+					"name": "end_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"slot_duration_minutes": {
+					"name": "slot_duration_minutes",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"is_closed": {
+					"name": "is_closed",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": false,
+					"default": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"doctor_schedule_overrides_doctor_id_doctors_id_fk": {
+					"name": "doctor_schedule_overrides_doctor_id_doctors_id_fk",
+					"tableFrom": "doctor_schedule_overrides",
+					"tableTo": "doctors",
+					"columnsFrom": ["doctor_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.doctor_schedules": {
+			"name": "doctor_schedules",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"doctor_id": {
+					"name": "doctor_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"day_of_week": {
+					"name": "day_of_week",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"start_time": {
+					"name": "start_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"end_time": {
+					"name": "end_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"slot_duration_minutes": {
+					"name": "slot_duration_minutes",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"default": 15
+				},
+				"is_active": {
+					"name": "is_active",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": false,
+					"default": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"doctor_schedules_doctor_id_doctors_id_fk": {
+					"name": "doctor_schedules_doctor_id_doctors_id_fk",
+					"tableFrom": "doctor_schedules",
+					"tableTo": "doctors",
+					"columnsFrom": ["doctor_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.doctors": {
+			"name": "doctors",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"image": {
+					"name": "image",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"specialization": {
+					"name": "specialization",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"is_active": {
+					"name": "is_active",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": false,
+					"default": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.patients": {
+			"name": "patients",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"phone": {
+					"name": "phone",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"cnic": {
+					"name": "cnic",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"date_of_birth": {
+					"name": "date_of_birth",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"gender": {
+					"name": "gender",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"address": {
+					"name": "address",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"patients_phone_unique": {
+					"name": "patients_phone_unique",
+					"nullsNotDistinct": false,
+					"columns": ["phone"]
+				},
+				"patients_cnic_unique": {
+					"name": "patients_cnic_unique",
+					"nullsNotDistinct": false,
+					"columns": ["cnic"]
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.queue_entries": {
+			"name": "queue_entries",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"token_number": {
+					"name": "token_number",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"appointment_id": {
+					"name": "appointment_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"status": {
+					"name": "status",
+					"type": "queue_entry_status",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'waiting'"
+				},
+				"called_at": {
+					"name": "called_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"consultation_start": {
+					"name": "consultation_start",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"consultation_end": {
+					"name": "consultation_end",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"queue_date": {
+					"name": "queue_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"patient_id": {
+					"name": "patient_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"doctor_id": {
+					"name": "doctor_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"queue_entries_appointment_id_appointments_id_fk": {
+					"name": "queue_entries_appointment_id_appointments_id_fk",
+					"tableFrom": "queue_entries",
+					"tableTo": "appointments",
+					"columnsFrom": ["appointment_id"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				},
+				"queue_entries_patient_id_patients_id_fk": {
+					"name": "queue_entries_patient_id_patients_id_fk",
+					"tableFrom": "queue_entries",
+					"tableTo": "patients",
+					"columnsFrom": ["patient_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"queue_entries_doctor_id_doctors_id_fk": {
+					"name": "queue_entries_doctor_id_doctors_id_fk",
+					"tableFrom": "queue_entries",
+					"tableTo": "doctors",
+					"columnsFrom": ["doctor_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.system_settings": {
+			"name": "system_settings",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"identity": {
+						"type": "always",
+						"name": "system_settings_id_seq",
+						"schema": "public",
+						"increment": "1",
+						"startWith": "1",
+						"minValue": "1",
+						"maxValue": "2147483647",
+						"cache": "1",
+						"cycle": false
+					}
+				},
+				"key": {
+					"name": "key",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"value": {
+					"name": "value",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"system_settings_key_unique": {
+					"name": "system_settings_key_unique",
+					"nullsNotDistinct": false,
+					"columns": ["key"]
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		}
+	},
+	"enums": {
+		"public.appointment_status": {
+			"name": "appointment_status",
+			"schema": "public",
+			"values": ["booked", "checked_in", "completed", "cancelled", "no_show"]
+		},
+		"public.queue_entry_status": {
+			"name": "queue_entry_status",
+			"schema": "public",
+			"values": ["waiting", "called", "in_consultation", "completed", "cancelled"]
+		}
+	},
+	"schemas": {},
+	"sequences": {},
+	"roles": {},
+	"policies": {},
+	"views": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
 }

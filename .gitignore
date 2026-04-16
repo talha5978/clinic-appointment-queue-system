@@ -11,11 +11,6 @@ npm-debug.log*
 
 */*/.tsbuildinfo
 
-/dist/
-apps/web/dist/.react-router
-build/
-
-/.react-router/
 /build/
 .vscode/
 

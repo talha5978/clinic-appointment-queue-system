@@ -11,4 +11,8 @@ declare module "fastify" {
 		db: DbClient;
 		config: AppConfig;
 	}
+
+	interface FastifyReply {
+		success<D>(data: D, message?: string, statusCode?: number): FastifyReply;
+	}
 }

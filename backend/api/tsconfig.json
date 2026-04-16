@@ -14,5 +14,6 @@
 		"paths": {
 			"~/*": ["./src/*"]
 		}
-	}
+	},
+	"references": [{ "path": "../../packages/db" }, { "path": "../../packages/types" }]
 }
