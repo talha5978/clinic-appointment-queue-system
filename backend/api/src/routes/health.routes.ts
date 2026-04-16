@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from "fastify";
 
 const healthRoutes: FastifyPluginAsync = async (fastify, _options) => {
-    fastify.get("/", async (_, reply) => {
+	fastify.get("/", async (_, reply) => {
 		try {
 			const result = await fastify.db.execute("SELECT timestamp 'now' AS now");
 			return reply.success(

@@ -19,5 +19,5 @@ export async function server(fastify: FastifyInstance) {
 	await fastify.register(dbPlugin);
 
 	await fastify.register(doctorsRoutes, { prefix: "/api/doctors" });
-	await fastify.register(healthRoutes, { prefix: "/api/health" })
+	await fastify.register(healthRoutes, { prefix: "/api/health" });
 }

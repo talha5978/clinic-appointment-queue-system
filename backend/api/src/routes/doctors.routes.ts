@@ -22,16 +22,13 @@ const doctorsRoutes: FastifyPluginAsync = async (fastify, _options) => {
 		let whereCondition = and();
 
 		if (search.trim()) {
-			whereCondition = and(
-				whereCondition,
-				ilike(doctors.name, `%${search}%`)
-			)
+			whereCondition = and(whereCondition, ilike(doctors.name, `%${search}%`));
 		}
 
 		const [{ count }] = await fastify.db
 			.select({ count: sql<number>`count(*)` })
 			.from(doctors)
-			
+
 			.where(whereCondition);
 
 		const allDoctors = await fastify.db
